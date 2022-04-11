@@ -4,16 +4,16 @@ navbar:
   title: "JSC370 Final Project - Shih-Ting (Cindy) Huang"
   left:
     - text: "Home"
-      href: page3.html
-    - text: "Page 2"
-      href: page2.html
-    - text: "Page 3"
+      href: index.html
+    - text: "Interactive Visuals"
+      href: finalproj.html
+    - text: "Lab 12"
       href: page3.html
   right:
     - icon: fa-github fa-lg
       href: https://github.com/cindyellow
-    - text: "JSC370 Home"
-      href: https://jsc370.github.io/jsc370-2022/
+    - icon: fa-linkedin fa-lg
+      href: https://www.linkedin.com/in/cindy-shih-ting-huang/
 output:
   html_document:
     theme: cosmo
