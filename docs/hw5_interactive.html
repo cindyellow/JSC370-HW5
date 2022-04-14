@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Interactive Visuals</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">JSC370 HW5 - Shih-Ting (Cindy) Huang</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="hw5_interactive.html">Interactive Visuals</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/cindyellow">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/cindy-shih-ting-huang/">
+    <span class="fa fa-linkedin fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Interactive Visuals</h1>
+
+</div>
+
+
+<style type="text/css">
+.code-r { /* Code block */
+  font-size: 15px;
+}
+
+.code-r-small { /* Code block */
+  font-size: 10px;
+}
+</style>
+<p>For more flexibility in viewing the relationship between variables filtered by a certain category, here we display some interactive visuals.</p>
+<p><br></p>
+<div id="scatter-plots" class="section level2 tabset">
+<h2 class="tabset">Scatter Plots</h2>
+<p>First, we look at the average review count, open hours, and ratings for each state. This gives us a little more insight on the usual value range for every state, which can be taken into consideration when comparing restaurant performance across the areas.</p>
+<div id="review-count-open-hours" class="section level3">
+<h3>Review Count &amp; Open Hours</h3>
+<div id="htmlwidget-55d868348f3e620ec8d7" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-55d868348f3e620ec8d7">{"x":{"visdat":{"4fb010f23b5f":["function () ","plotlyVisDat"]},"cur_data":"4fb010f23b5f","attrs":{"4fb010f23b5f":{"x":{},"y":{},"mode":"markers","marker":{"sizemode":"diameter","opacity":0.5},"hover_info":"text","text":{},"color":{},"size":{},"alpha_stroke":1,"sizes":[5,70],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Avg Review Count by Avg Open Hours and State","xaxis":{"domain":[0,1],"automargin":true,"title":"Average Open Hours"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average Review Count"},"legend":{"title":{"text":"<b> State <\/b>"}},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[9.93941828109414],"y":[24.6008820286659],"mode":"markers","marker":{"color":"rgba(102,194,165,1)","size":[12.8767032532944],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(102,194,165,1)"}},"hover_info":"text","text":"State: AB<br>Avg Review Count: 24.601<br>Avg Hours: 9.939<br>Total Restaurants: 907","type":"scatter","name":"AB","textfont":{"color":"rgba(102,194,165,1)","size":12.8767032532944},"error_y":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"error_x":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"line":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"xaxis":"x","yaxis":"y","frame":null},{"x":[11.2422790515383],"y":[74.9456790123457],"mode":"markers","marker":{"color":"rgba(189,173,133,1)","size":[34.1956399347202],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(189,173,133,1)"}},"hover_info":"text","text":"State: AZ<br>Avg Review Count: 74.946<br>Avg Hours: 11.242<br>Total Restaurants: 1215","type":"scatter","name":"AZ","textfont":{"color":"rgba(189,173,133,1)","size":34.1956399347202},"error_y":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"error_x":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"line":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"xaxis":"x","yaxis":"y","frame":null},{"x":[9.66183443841672],"y":[159.497890295359],"mode":"markers","marker":{"color":"rgba(245,146,102,1)","size":[70],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(245,146,102,1)"}},"hover_info":"text","text":"State: CA<br>Avg Review Count: 159.498<br>Avg Hours: 9.662<br>Total Restaurants: 474","type":"scatter","name":"CA","textfont":{"color":"rgba(245,146,102,1)","size":70},"error_y":{"color":"rgba(245,146,102,1)","width":70},"error_x":{"color":"rgba(245,146,102,1)","width":70},"line":{"color":"rgba(245,146,102,1)","width":70},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.9591212989494],"y":[40.9885386819484],"mode":"markers","marker":{"color":"rgba(217,150,141,1)","size":[19.8161972125516],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(217,150,141,1)"}},"hover_info":"text","text":"State: DE<br>Avg Review Count: 40.989<br>Avg Hours: 10.959<br>Total Restaurants: 349","type":"scatter","name":"DE","textfont":{"color":"rgba(217,150,141,1)","size":19.8161972125516},"error_y":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"error_x":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"line":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"xaxis":"x","yaxis":"y","frame":null},{"x":[11.2170736898111],"y":[75.7768156424581],"mode":"markers","marker":{"color":"rgba(162,158,189,1)","size":[34.5475918791629],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(162,158,189,1)"}},"hover_info":"text","text":"State: FL<br>Avg Review Count: 75.777<br>Avg Hours: 11.217<br>Total Restaurants: 3580","type":"scatter","name":"FL","textfont":{"color":"rgba(162,158,189,1)","size":34.5475918791629},"error_y":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"error_x":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"line":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.4864301276066],"y":[60.6666666666667],"mode":"markers","marker":{"color":"rgba(175,154,200,1)","size":[28.1490695181286],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(175,154,200,1)"}},"hover_info":"text","text":"State: ID<br>Avg Review Count: 60.667<br>Avg Hours: 10.486<br>Total Restaurants: 612","type":"scatter","name":"ID","textfont":{"color":"rgba(175,154,200,1)","size":28.1490695181286},"error_y":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"error_x":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"line":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"xaxis":"x","yaxis":"y","frame":null},{"x":[12.5404883072822],"y":[32.3969465648855],"mode":"markers","marker":{"color":"rgba(215,144,197,1)","size":[16.1780137395767],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(215,144,197,1)"}},"hover_info":"text","text":"State: IL<br>Avg Review Count: 32.397<br>Avg Hours: 12.54<br>Total Restaurants: 393","type":"scatter","name":"IL","textfont":{"color":"rgba(215,144,197,1)","size":16.1780137395767},"error_y":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"error_x":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"line":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.9653040415276],"y":[68.2480533926585],"mode":"markers","marker":{"color":"rgba(219,162,168,1)","size":[31.3594728418567],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(219,162,168,1)"}},"hover_info":"text","text":"State: IN<br>Avg Review Count: 68.248<br>Avg Hours: 10.965<br>Total Restaurants: 1798","type":"scatter","name":"IN","textfont":{"color":"rgba(219,162,168,1)","size":31.3594728418567},"error_y":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"error_x":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"line":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.4619739382239],"y":[129.381756756757],"mode":"markers","marker":{"color":"rgba(189,198,118,1)","size":[57.2470645932499],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(189,198,118,1)"}},"hover_info":"text","text":"State: LA<br>Avg Review Count: 129.382<br>Avg Hours: 10.462<br>Total Restaurants: 1480","type":"scatter","name":"LA","textfont":{"color":"rgba(189,198,118,1)","size":57.2470645932499},"error_y":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"error_x":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"line":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"xaxis":"x","yaxis":"y","frame":null},{"x":[11.3964285714286],"y":[74.39592760181],"mode":"markers","marker":{"color":"rgba(186,217,78,1)","size":[33.9628429782535],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(186,217,78,1)"}},"hover_info":"text","text":"State: MO<br>Avg Review Count: 74.396<br>Avg Hours: 11.396<br>Total Restaurants: 1768","type":"scatter","name":"MO","textfont":{"color":"rgba(186,217,78,1)","size":33.9628429782535},"error_y":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"error_x":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"line":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"xaxis":"x","yaxis":"y","frame":null},{"x":[4],"y":[6],"mode":"markers","marker":{"color":"rgba(227,217,62,1)","size":[5],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(227,217,62,1)"}},"hover_info":"text","text":"State: MT<br>Avg Review Count: 6<br>Avg Hours: 4<br>Total Restaurants: 1","type":"scatter","name":"MT","textfont":{"color":"rgba(227,217,62,1)","size":5},"error_y":{"color":"rgba(227,217,62,1)","width":5},"error_x":{"color":"rgba(227,217,62,1)","width":5},"line":{"color":"rgba(227,217,62,1)","width":5},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.2857142857143],"y":[29],"mode":"markers","marker":{"color":"rgba(252,214,66,1)","size":[14.7395475411639],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(252,214,66,1)"}},"hover_info":"text","text":"State: NC<br>Avg Review Count: 29<br>Avg Hours: 10.286<br>Total Restaurants: 1","type":"scatter","name":"NC","textfont":{"color":"rgba(252,214,66,1)","size":14.7395475411639},"error_y":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"error_x":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"line":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"xaxis":"x","yaxis":"y","frame":null},{"x":[11.8617987673223],"y":[41.8928276999176],"mode":"markers","marker":{"color":"rgba(241,204,114,1)","size":[20.1991261639196],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(241,204,114,1)"}},"hover_info":"text","text":"State: NJ<br>Avg Review Count: 41.893<br>Avg Hours: 11.862<br>Total Restaurants: 1213","type":"scatter","name":"NJ","textfont":{"color":"rgba(241,204,114,1)","size":20.1991261639196},"error_y":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"error_x":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"line":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.2909951991696],"y":[123.200272479564],"mode":"markers","marker":{"color":"rgba(226,195,150,1)","size":[54.6294619848727],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(226,195,150,1)"}},"hover_info":"text","text":"State: NV<br>Avg Review Count: 123.2<br>Avg Hours: 10.291<br>Total Restaurants: 734","type":"scatter","name":"NV","textfont":{"color":"rgba(226,195,150,1)","size":54.6294619848727},"error_y":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"error_x":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"line":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.4738395016564],"y":[77.2394366197183],"mode":"markers","marker":{"color":"rgba(204,187,165,1)","size":[35.1669512940642],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(204,187,165,1)"}},"hover_info":"text","text":"State: PA<br>Avg Review Count: 77.239<br>Avg Hours: 10.474<br>Total Restaurants: 4686","type":"scatter","name":"PA","textfont":{"color":"rgba(204,187,165,1)","size":35.1669512940642},"error_y":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"error_x":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"line":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"xaxis":"x","yaxis":"y","frame":null},{"x":[10.6376087237063],"y":[86.8617886178862],"mode":"markers","marker":{"color":"rgba(179,179,179,1)","size":[39.241618891628],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(179,179,179,1)"}},"hover_info":"text","text":"State: TN<br>Avg Review Count: 86.862<br>Avg Hours: 10.638<br>Total Restaurants: 1845","type":"scatter","name":"TN","textfont":{"color":"rgba(179,179,179,1)","size":39.241618891628},"error_y":{"color":"rgba(179,179,179,1)","width":39.241618891628},"error_x":{"color":"rgba(179,179,179,1)","width":39.241618891628},"line":{"color":"rgba(179,179,179,1)","width":39.241618891628},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="review-count-rating" class="section level3">
+<h3>Review Count &amp; Rating</h3>
+<div id="htmlwidget-e431b772f5a58815b3ad" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e431b772f5a58815b3ad">{"x":{"visdat":{"4fb03c45463a":["function () ","plotlyVisDat"]},"cur_data":"4fb03c45463a","attrs":{"4fb03c45463a":{"x":{},"y":{},"mode":"markers","marker":{"sizemode":"diameter","opacity":0.5},"hover_info":"text","text":{},"color":{},"size":{},"alpha_stroke":1,"sizes":[5,70],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Avg Review Count by Avg Rating & State","xaxis":{"domain":[0,1],"automargin":true,"title":"Average Rating"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Average Review Count"},"hovermode":"compare","legend":{"title":{"text":"<b> State <\/b>"}},"showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[3.41951488423374],"y":[24.6008820286659],"mode":"markers","marker":{"color":"rgba(102,194,165,1)","size":[12.8767032532944],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(102,194,165,1)"}},"hover_info":"text","text":"State: AB<br>Avg Review Count: 24.601<br>Avg Rating: 3.42<br>Total Restaurants: 907","type":"scatter","name":"AB","textfont":{"color":"rgba(102,194,165,1)","size":12.8767032532944},"error_y":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"error_x":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"line":{"color":"rgba(102,194,165,1)","width":12.8767032532944},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.41687242798354],"y":[74.9456790123457],"mode":"markers","marker":{"color":"rgba(189,173,133,1)","size":[34.1956399347202],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(189,173,133,1)"}},"hover_info":"text","text":"State: AZ<br>Avg Review Count: 74.946<br>Avg Rating: 3.417<br>Total Restaurants: 1215","type":"scatter","name":"AZ","textfont":{"color":"rgba(189,173,133,1)","size":34.1956399347202},"error_y":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"error_x":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"line":{"color":"rgba(189,173,133,1)","width":34.1956399347202},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.80907172995781],"y":[159.497890295359],"mode":"markers","marker":{"color":"rgba(245,146,102,1)","size":[70],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(245,146,102,1)"}},"hover_info":"text","text":"State: CA<br>Avg Review Count: 159.498<br>Avg Rating: 3.809<br>Total Restaurants: 474","type":"scatter","name":"CA","textfont":{"color":"rgba(245,146,102,1)","size":70},"error_y":{"color":"rgba(245,146,102,1)","width":70},"error_x":{"color":"rgba(245,146,102,1)","width":70},"line":{"color":"rgba(245,146,102,1)","width":70},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.32234957020057],"y":[40.9885386819484],"mode":"markers","marker":{"color":"rgba(217,150,141,1)","size":[19.8161972125516],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(217,150,141,1)"}},"hover_info":"text","text":"State: DE<br>Avg Review Count: 40.989<br>Avg Rating: 3.322<br>Total Restaurants: 349","type":"scatter","name":"DE","textfont":{"color":"rgba(217,150,141,1)","size":19.8161972125516},"error_y":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"error_x":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"line":{"color":"rgba(217,150,141,1)","width":19.8161972125516},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.51731843575419],"y":[75.7768156424581],"mode":"markers","marker":{"color":"rgba(162,158,189,1)","size":[34.5475918791629],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(162,158,189,1)"}},"hover_info":"text","text":"State: FL<br>Avg Review Count: 75.777<br>Avg Rating: 3.517<br>Total Restaurants: 3580","type":"scatter","name":"FL","textfont":{"color":"rgba(162,158,189,1)","size":34.5475918791629},"error_y":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"error_x":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"line":{"color":"rgba(162,158,189,1)","width":34.5475918791629},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.53022875816993],"y":[60.6666666666667],"mode":"markers","marker":{"color":"rgba(175,154,200,1)","size":[28.1490695181286],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(175,154,200,1)"}},"hover_info":"text","text":"State: ID<br>Avg Review Count: 60.667<br>Avg Rating: 3.53<br>Total Restaurants: 612","type":"scatter","name":"ID","textfont":{"color":"rgba(175,154,200,1)","size":28.1490695181286},"error_y":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"error_x":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"line":{"color":"rgba(175,154,200,1)","width":28.1490695181286},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.04961832061069],"y":[32.3969465648855],"mode":"markers","marker":{"color":"rgba(215,144,197,1)","size":[16.1780137395767],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(215,144,197,1)"}},"hover_info":"text","text":"State: IL<br>Avg Review Count: 32.397<br>Avg Rating: 3.05<br>Total Restaurants: 393","type":"scatter","name":"IL","textfont":{"color":"rgba(215,144,197,1)","size":16.1780137395767},"error_y":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"error_x":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"line":{"color":"rgba(215,144,197,1)","width":16.1780137395767},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.28615127919911],"y":[68.2480533926585],"mode":"markers","marker":{"color":"rgba(219,162,168,1)","size":[31.3594728418567],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(219,162,168,1)"}},"hover_info":"text","text":"State: IN<br>Avg Review Count: 68.248<br>Avg Rating: 3.286<br>Total Restaurants: 1798","type":"scatter","name":"IN","textfont":{"color":"rgba(219,162,168,1)","size":31.3594728418567},"error_y":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"error_x":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"line":{"color":"rgba(219,162,168,1)","width":31.3594728418567},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.53412162162162],"y":[129.381756756757],"mode":"markers","marker":{"color":"rgba(189,198,118,1)","size":[57.2470645932499],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(189,198,118,1)"}},"hover_info":"text","text":"State: LA<br>Avg Review Count: 129.382<br>Avg Rating: 3.534<br>Total Restaurants: 1480","type":"scatter","name":"LA","textfont":{"color":"rgba(189,198,118,1)","size":57.2470645932499},"error_y":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"error_x":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"line":{"color":"rgba(189,198,118,1)","width":57.2470645932499},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.31391402714932],"y":[74.39592760181],"mode":"markers","marker":{"color":"rgba(186,217,78,1)","size":[33.9628429782535],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(186,217,78,1)"}},"hover_info":"text","text":"State: MO<br>Avg Review Count: 74.396<br>Avg Rating: 3.314<br>Total Restaurants: 1768","type":"scatter","name":"MO","textfont":{"color":"rgba(186,217,78,1)","size":33.9628429782535},"error_y":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"error_x":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"line":{"color":"rgba(186,217,78,1)","width":33.9628429782535},"xaxis":"x","yaxis":"y","frame":null},{"x":[5],"y":[6],"mode":"markers","marker":{"color":"rgba(227,217,62,1)","size":[5],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(227,217,62,1)"}},"hover_info":"text","text":"State: MT<br>Avg Review Count: 6<br>Avg Rating: 5<br>Total Restaurants: 1","type":"scatter","name":"MT","textfont":{"color":"rgba(227,217,62,1)","size":5},"error_y":{"color":"rgba(227,217,62,1)","width":5},"error_x":{"color":"rgba(227,217,62,1)","width":5},"line":{"color":"rgba(227,217,62,1)","width":5},"xaxis":"x","yaxis":"y","frame":null},{"x":[2],"y":[29],"mode":"markers","marker":{"color":"rgba(252,214,66,1)","size":[14.7395475411639],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(252,214,66,1)"}},"hover_info":"text","text":"State: NC<br>Avg Review Count: 29<br>Avg Rating: 2<br>Total Restaurants: 1","type":"scatter","name":"NC","textfont":{"color":"rgba(252,214,66,1)","size":14.7395475411639},"error_y":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"error_x":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"line":{"color":"rgba(252,214,66,1)","width":14.7395475411639},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.38252267106348],"y":[41.8928276999176],"mode":"markers","marker":{"color":"rgba(241,204,114,1)","size":[20.1991261639196],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(241,204,114,1)"}},"hover_info":"text","text":"State: NJ<br>Avg Review Count: 41.893<br>Avg Rating: 3.383<br>Total Restaurants: 1213","type":"scatter","name":"NJ","textfont":{"color":"rgba(241,204,114,1)","size":20.1991261639196},"error_y":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"error_x":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"line":{"color":"rgba(241,204,114,1)","width":20.1991261639196},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.52179836512262],"y":[123.200272479564],"mode":"markers","marker":{"color":"rgba(226,195,150,1)","size":[54.6294619848727],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(226,195,150,1)"}},"hover_info":"text","text":"State: NV<br>Avg Review Count: 123.2<br>Avg Rating: 3.522<br>Total Restaurants: 734","type":"scatter","name":"NV","textfont":{"color":"rgba(226,195,150,1)","size":54.6294619848727},"error_y":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"error_x":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"line":{"color":"rgba(226,195,150,1)","width":54.6294619848727},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.51013657703799],"y":[77.2394366197183],"mode":"markers","marker":{"color":"rgba(204,187,165,1)","size":[35.1669512940642],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(204,187,165,1)"}},"hover_info":"text","text":"State: PA<br>Avg Review Count: 77.239<br>Avg Rating: 3.51<br>Total Restaurants: 4686","type":"scatter","name":"PA","textfont":{"color":"rgba(204,187,165,1)","size":35.1669512940642},"error_y":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"error_x":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"line":{"color":"rgba(204,187,165,1)","width":35.1669512940642},"xaxis":"x","yaxis":"y","frame":null},{"x":[3.36124661246612],"y":[86.8617886178862],"mode":"markers","marker":{"color":"rgba(179,179,179,1)","size":[39.241618891628],"sizemode":"diameter","opacity":0.5,"line":{"color":"rgba(179,179,179,1)"}},"hover_info":"text","text":"State: TN<br>Avg Review Count: 86.862<br>Avg Rating: 3.361<br>Total Restaurants: 1845","type":"scatter","name":"TN","textfont":{"color":"rgba(179,179,179,1)","size":39.241618891628},"error_y":{"color":"rgba(179,179,179,1)","width":39.241618891628},"error_x":{"color":"rgba(179,179,179,1)","width":39.241618891628},"line":{"color":"rgba(179,179,179,1)","width":39.241618891628},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="section" class="section level2 unnumbered">
+<h2 class="unnumbered"></h2>
+<p><br></p>
+</div>
+<div id="bar-graph" class="section level2">
+<h2>Bar Graph</h2>
+<p>We also take a look at the number of each rating for different categories of the restaurant’s takeout-delivery feature.</p>
+<div id="htmlwidget-bec1eb5cc15bcc187cec" style="width:700px;height:415.296px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bec1eb5cc15bcc187cec">{"x":{"data":[{"orientation":"v","width":[0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.13793103448276],"base":[24,0,0,0,71,0,0,117,0,0,0,165,0,0,0,307,0,0,356,0,0,0,510,0,0,0,513,0,0,227],"x":[0.96551724137931,1.10344827586207,1.24137931034483,1.37931034482759,1.51724137931034,1.6551724137931,1.79310344827586,1.93103448275862,2.06896551724138,2.20689655172414,2.3448275862069,2.48275862068966,2.62068965517241,2.75862068965517,2.89655172413793,3.03448275862069,3.17241379310345,3.31034482758621,3.44827586206897,3.58620689655172,3.72413793103448,3.86206896551724,4,4.13793103448276,4.27586206896552,4.41379310344828,4.55172413793103,4.68965517241379,4.82758620689655,4.96551724137931],"y":[158,0,0,0,1072,0,0,1631,0,0,0,1865,0,0,0,2397,0,0,3451,0,0,0,4154,0,0,0,3365,0,0,674],"text":["count:  158<br />stars: 0.9655172<br />takeout_deli: Both","count:    0<br />stars: 1.1034483<br />takeout_deli: Both","count:    0<br />stars: 1.2413793<br />takeout_deli: Both","count:    0<br />stars: 1.3793103<br />takeout_deli: Both","count: 1072<br />stars: 1.5172414<br />takeout_deli: Both","count:    0<br />stars: 1.6551724<br />takeout_deli: Both","count:    0<br />stars: 1.7931034<br />takeout_deli: Both","count: 1631<br />stars: 1.9310345<br />takeout_deli: Both","count:    0<br />stars: 2.0689655<br />takeout_deli: Both","count:    0<br />stars: 2.2068966<br />takeout_deli: Both","count:    0<br />stars: 2.3448276<br />takeout_deli: Both","count: 1865<br />stars: 2.4827586<br />takeout_deli: Both","count:    0<br />stars: 2.6206897<br />takeout_deli: Both","count:    0<br />stars: 2.7586207<br />takeout_deli: Both","count:    0<br />stars: 2.8965517<br />takeout_deli: Both","count: 2397<br />stars: 3.0344828<br />takeout_deli: Both","count:    0<br />stars: 3.1724138<br />takeout_deli: Both","count:    0<br />stars: 3.3103448<br />takeout_deli: Both","count: 3451<br />stars: 3.4482759<br />takeout_deli: Both","count:    0<br />stars: 3.5862069<br />takeout_deli: Both","count:    0<br />stars: 3.7241379<br />takeout_deli: Both","count:    0<br />stars: 3.8620690<br />takeout_deli: Both","count: 4154<br />stars: 4.0000000<br />takeout_deli: Both","count:    0<br />stars: 4.1379310<br />takeout_deli: Both","count:    0<br />stars: 4.2758621<br />takeout_deli: Both","count:    0<br />stars: 4.4137931<br />takeout_deli: Both","count: 3365<br />stars: 4.5517241<br />takeout_deli: Both","count:    0<br />stars: 4.6896552<br />takeout_deli: Both","count:    0<br />stars: 4.8275862<br />takeout_deli: Both","count:  674<br />stars: 4.9655172<br />takeout_deli: Both"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(248,118,109,0.5)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Both","legendgroup":"Both","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.13793103448276],"base":[13,0,0,0,41,0,0,81,0,0,0,134,0,0,0,272,0,0,327,0,0,0,456,0,0,0,464,0,0,194],"x":[0.96551724137931,1.10344827586207,1.24137931034483,1.37931034482759,1.51724137931034,1.6551724137931,1.79310344827586,1.93103448275862,2.06896551724138,2.20689655172414,2.3448275862069,2.48275862068966,2.62068965517241,2.75862068965517,2.89655172413793,3.03448275862069,3.17241379310345,3.31034482758621,3.44827586206897,3.58620689655172,3.72413793103448,3.86206896551724,4,4.13793103448276,4.27586206896552,4.41379310344828,4.55172413793103,4.68965517241379,4.82758620689655,4.96551724137931],"y":[11,0,0,0,30,0,0,36,0,0,0,31,0,0,0,35,0,0,29,0,0,0,54,0,0,0,49,0,0,33],"text":["count:   11<br />stars: 0.9655172<br />takeout_deli: Delivery","count:    0<br />stars: 1.1034483<br />takeout_deli: Delivery","count:    0<br />stars: 1.2413793<br />takeout_deli: Delivery","count:    0<br />stars: 1.3793103<br />takeout_deli: Delivery","count:   30<br />stars: 1.5172414<br />takeout_deli: Delivery","count:    0<br />stars: 1.6551724<br />takeout_deli: Delivery","count:    0<br />stars: 1.7931034<br />takeout_deli: Delivery","count:   36<br />stars: 1.9310345<br />takeout_deli: Delivery","count:    0<br />stars: 2.0689655<br />takeout_deli: Delivery","count:    0<br />stars: 2.2068966<br />takeout_deli: Delivery","count:    0<br />stars: 2.3448276<br />takeout_deli: Delivery","count:   31<br />stars: 2.4827586<br />takeout_deli: Delivery","count:    0<br />stars: 2.6206897<br />takeout_deli: Delivery","count:    0<br />stars: 2.7586207<br />takeout_deli: Delivery","count:    0<br />stars: 2.8965517<br />takeout_deli: Delivery","count:   35<br />stars: 3.0344828<br />takeout_deli: Delivery","count:    0<br />stars: 3.1724138<br />takeout_deli: Delivery","count:    0<br />stars: 3.3103448<br />takeout_deli: Delivery","count:   29<br />stars: 3.4482759<br />takeout_deli: Delivery","count:    0<br />stars: 3.5862069<br />takeout_deli: Delivery","count:    0<br />stars: 3.7241379<br />takeout_deli: Delivery","count:    0<br />stars: 3.8620690<br />takeout_deli: Delivery","count:   54<br />stars: 4.0000000<br />takeout_deli: Delivery","count:    0<br />stars: 4.1379310<br />takeout_deli: Delivery","count:    0<br />stars: 4.2758621<br />takeout_deli: Delivery","count:    0<br />stars: 4.4137931<br />takeout_deli: Delivery","count:   49<br />stars: 4.5517241<br />takeout_deli: Delivery","count:    0<br />stars: 4.6896552<br />takeout_deli: Delivery","count:    0<br />stars: 4.8275862<br />takeout_deli: Delivery","count:   33<br />stars: 4.9655172<br />takeout_deli: Delivery"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(124,174,0,0.5)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Delivery","legendgroup":"Delivery","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.13793103448276],"base":[0,0,0,0,11,0,0,39,0,0,0,62,0,0,0,132,0,0,152,0,0,0,223,0,0,0,210,0,0,71],"x":[0.96551724137931,1.10344827586207,1.24137931034483,1.37931034482759,1.51724137931034,1.6551724137931,1.79310344827586,1.93103448275862,2.06896551724138,2.20689655172414,2.3448275862069,2.48275862068966,2.62068965517241,2.75862068965517,2.89655172413793,3.03448275862069,3.17241379310345,3.31034482758621,3.44827586206897,3.58620689655172,3.72413793103448,3.86206896551724,4,4.13793103448276,4.27586206896552,4.41379310344828,4.55172413793103,4.68965517241379,4.82758620689655,4.96551724137931],"y":[13,0,0,0,30,0,0,42,0,0,0,72,0,0,0,140,0,0,175,0,0,0,233,0,0,0,254,0,0,123],"text":["count:   13<br />stars: 0.9655172<br />takeout_deli: Neither","count:    0<br />stars: 1.1034483<br />takeout_deli: Neither","count:    0<br />stars: 1.2413793<br />takeout_deli: Neither","count:    0<br />stars: 1.3793103<br />takeout_deli: Neither","count:   30<br />stars: 1.5172414<br />takeout_deli: Neither","count:    0<br />stars: 1.6551724<br />takeout_deli: Neither","count:    0<br />stars: 1.7931034<br />takeout_deli: Neither","count:   42<br />stars: 1.9310345<br />takeout_deli: Neither","count:    0<br />stars: 2.0689655<br />takeout_deli: Neither","count:    0<br />stars: 2.2068966<br />takeout_deli: Neither","count:    0<br />stars: 2.3448276<br />takeout_deli: Neither","count:   72<br />stars: 2.4827586<br />takeout_deli: Neither","count:    0<br />stars: 2.6206897<br />takeout_deli: Neither","count:    0<br />stars: 2.7586207<br />takeout_deli: Neither","count:    0<br />stars: 2.8965517<br />takeout_deli: Neither","count:  140<br />stars: 3.0344828<br />takeout_deli: Neither","count:    0<br />stars: 3.1724138<br />takeout_deli: Neither","count:    0<br />stars: 3.3103448<br />takeout_deli: Neither","count:  175<br />stars: 3.4482759<br />takeout_deli: Neither","count:    0<br />stars: 3.5862069<br />takeout_deli: Neither","count:    0<br />stars: 3.7241379<br />takeout_deli: Neither","count:    0<br />stars: 3.8620690<br />takeout_deli: Neither","count:  233<br />stars: 4.0000000<br />takeout_deli: Neither","count:    0<br />stars: 4.1379310<br />takeout_deli: Neither","count:    0<br />stars: 4.2758621<br />takeout_deli: Neither","count:    0<br />stars: 4.4137931<br />takeout_deli: Neither","count:  254<br />stars: 4.5517241<br />takeout_deli: Neither","count:    0<br />stars: 4.6896552<br />takeout_deli: Neither","count:    0<br />stars: 4.8275862<br />takeout_deli: Neither","count:  123<br />stars: 4.9655172<br />takeout_deli: Neither"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(0,191,196,0.5)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Neither","legendgroup":"Neither","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"v","width":[0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482759,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482759,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.137931034482758,0.13793103448276],"base":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"x":[0.96551724137931,1.10344827586207,1.24137931034483,1.37931034482759,1.51724137931034,1.6551724137931,1.79310344827586,1.93103448275862,2.06896551724138,2.20689655172414,2.3448275862069,2.48275862068966,2.62068965517241,2.75862068965517,2.89655172413793,3.03448275862069,3.17241379310345,3.31034482758621,3.44827586206897,3.58620689655172,3.72413793103448,3.86206896551724,4,4.13793103448276,4.27586206896552,4.41379310344828,4.55172413793103,4.68965517241379,4.82758620689655,4.96551724137931],"y":[0,0,0,0,11,0,0,39,0,0,0,62,0,0,0,132,0,0,152,0,0,0,223,0,0,0,210,0,0,71],"text":["count:    0<br />stars: 0.9655172<br />takeout_deli: Takeout","count:    0<br />stars: 1.1034483<br />takeout_deli: Takeout","count:    0<br />stars: 1.2413793<br />takeout_deli: Takeout","count:    0<br />stars: 1.3793103<br />takeout_deli: Takeout","count:   11<br />stars: 1.5172414<br />takeout_deli: Takeout","count:    0<br />stars: 1.6551724<br />takeout_deli: Takeout","count:    0<br />stars: 1.7931034<br />takeout_deli: Takeout","count:   39<br />stars: 1.9310345<br />takeout_deli: Takeout","count:    0<br />stars: 2.0689655<br />takeout_deli: Takeout","count:    0<br />stars: 2.2068966<br />takeout_deli: Takeout","count:    0<br />stars: 2.3448276<br />takeout_deli: Takeout","count:   62<br />stars: 2.4827586<br />takeout_deli: Takeout","count:    0<br />stars: 2.6206897<br />takeout_deli: Takeout","count:    0<br />stars: 2.7586207<br />takeout_deli: Takeout","count:    0<br />stars: 2.8965517<br />takeout_deli: Takeout","count:  132<br />stars: 3.0344828<br />takeout_deli: Takeout","count:    0<br />stars: 3.1724138<br />takeout_deli: Takeout","count:    0<br />stars: 3.3103448<br />takeout_deli: Takeout","count:  152<br />stars: 3.4482759<br />takeout_deli: Takeout","count:    0<br />stars: 3.5862069<br />takeout_deli: Takeout","count:    0<br />stars: 3.7241379<br />takeout_deli: Takeout","count:    0<br />stars: 3.8620690<br />takeout_deli: Takeout","count:  223<br />stars: 4.0000000<br />takeout_deli: Takeout","count:    0<br />stars: 4.1379310<br />takeout_deli: Takeout","count:    0<br />stars: 4.2758621<br />takeout_deli: Takeout","count:    0<br />stars: 4.4137931<br />takeout_deli: Takeout","count:  210<br />stars: 4.5517241<br />takeout_deli: Takeout","count:    0<br />stars: 4.6896552<br />takeout_deli: Takeout","count:    0<br />stars: 4.8275862<br />takeout_deli: Takeout","count:   71<br />stars: 4.9655172<br />takeout_deli: Takeout"],"type":"bar","textposition":"none","marker":{"autocolorscale":false,"color":"rgba(199,124,255,0.5)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"Takeout","legendgroup":"Takeout","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":45.3645816141277,"r":7.30593607305936,"b":41.7846729383287,"l":48.9497716894977},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"title":{"text":"Ratings by Takeout/Delivery Category","font":{"color":"rgba(0,0,0,1)","family":"","size":17.5342465753425},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.689655172413793,5.24137931034483],"tickmode":"array","ticktext":["1","2","3","4","5"],"tickvals":[1,2,3,4,5],"categoryorder":"array","categoryarray":["1","2","3","4","5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"y","title":{"text":"Ratings","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-233.2,4897.2],"tickmode":"array","ticktext":["0","1000","2000","3000","4000"],"tickvals":[0,1000,2000,3000,4000],"categoryorder":"array","categoryarray":["0","1000","2000","3000","4000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176,"zeroline":false,"anchor":"x","title":{"text":"Frequency","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"title":{"text":"takeout_deli","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"4fb048772e1":{"x":{},"fill":{},"type":"bar"}},"cur_data":"4fb048772e1","visdat":{"4fb048772e1":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+<p>Copyright &copy; 2022, Shih-Ting (Cindy) Huang.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
