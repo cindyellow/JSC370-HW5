@@ -1,14 +1,13 @@
-name: "my-jsc370-website"
+name: "jsc370-HW5"
 output_dir: "docs"
 navbar:
-  title: "JSC370 Final Project - Shih-Ting (Cindy) Huang"
+  title: "JSC370 HW5 - Shih-Ting (Cindy) Huang"
   left:
     - text: "Home"
       href: index.html
     - text: "Interactive Visuals"
-      href: finalproj.html
-    - text: "Lab 12"
-      href: page3.html
+      href: hw5_interactive.html
+      
   right:
     - icon: fa-github fa-lg
       href: https://github.com/cindyellow
